@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>留学城市性格适配测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap");
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background-color: #f2f3f5; /* Light gray background matching the screenshot */
+        color: #333;
+        overscroll-behavior-y: none;
+      }
+
+      .font-serif-sc {
+        font-family: "Noto Serif SC", serif;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.4s ease-in forwards;
+      }
+
+      .fade-out {
+        animation: fadeOut 0.3s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+      }
+
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex justify-center items-center p-0 sm:p-4">
+    <!-- App Container -->
+    <div
+      id="app-container"
+      class="w-full max-w-md bg-[#f2f3f5] sm:rounded-[2rem] sm:shadow-2xl overflow-hidden relative h-[100dvh] sm:h-[850px] flex flex-col"
+    >
+      <!-- Screen 1: Welcome -->
+      <div
+        id="screen-welcome"
+        class="absolute inset-0 flex flex-col p-8 bg-white z-20 overflow-y-auto fade-in"
+      >
+        <div class="mt-12 mb-8 text-center">
+          <div class="text-5xl mb-4">✈️</div>
+          <h1
+            class="text-2xl font-bold text-gray-800 mb-2 tracking-wide font-serif-sc"
+          >
+            留学城市维度评测
+          </h1>
+          <p class="text-sm text-gray-500">
+            找到那片能滋养你、释放你天性的土壤
+          </p>
+        </div>
+
+        <div class="space-y-5 mt-4 flex-1">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1"
+              >当前专业 (Current Major)</label
+            >
+            <select
+              id="select-current-major"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-colors text-gray-800"
+              onchange="toggleManualInput('current')"
+            >
+              <option value="" disabled selected>请选择当前专业</option>
+              <optgroup label="泛理工科 (STEM)">
+                <option value="计算机科学 / Computer Science">
+                  计算机科学 / Computer Science
+                </option>
+                <option value="工程学 / Engineering">
+                  工程学 / Engineering
+                </option>
+                <option value="数学与统计 / Math & Statistics">
+                  数学与统计 / Math & Statistics
+                </option>
+              </optgroup>
+              <optgroup label="商科与管理 (Business)">
+                <option value="金融与会计 / Finance & Accounting">
+                  金融与会计 / Finance & Accounting
+                </option>
+                <option value="管理与市场 / Management & Marketing">
+                  管理与市场 / Management & Marketing
+                </option>
+              </optgroup>
+              <optgroup label="人文与社科 (Humanities & Social Sciences)">
+                <option value="文学与历史 / Literature & History">
+                  文学与历史 / Literature & History
+                </option>
+                <option value="社会学与心理学 / Sociology & Psychology">
+                  社会学与心理学 / Sociology & Psychology
+                </option>
+                <option value="传媒与新闻 / Media & Journalism">
+                  传媒与新闻 / Media & Journalism
+                </option>
+              </optgroup>
+              <optgroup label="艺术与设计 (Arts & Design)">
+                <option value="艺术与纯艺 / Fine Arts">
+                  艺术与纯艺 / Fine Arts
+                </option>
+                <option value="设计类 / Design">设计类 / Design</option>
+              </optgroup>
+              <option value="other">其他 (手动输入) / Other</option>
+            </select>
+            <input
+              type="text"
+              id="input-current-major-manual"
+              placeholder="请输入你的专业..."
+              class="w-full mt-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-colors text-gray-800 hidden"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5 ml-1"
+              >目标申请专业 (Target Major)</label
+            >
+            <select
+              id="select-target-major"
+              class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-colors text-gray-800"
+              onchange="toggleManualInput('target')"
+            >
+              <option value="" disabled selected>请选择目标专业</option>
+              <optgroup label="泛理工科 (STEM)">
+                <option value="计算机科学 / Computer Science">
+                  计算机科学 / Computer Science
+                </option>
+                <option value="人工智能 / AI & Data Science">
+                  人工智能 / AI & Data Science
+                </option>
+                <option value="工程学 / Engineering">
+                  工程学 / Engineering
+                </option>
+              </optgroup>
+              <optgroup label="商科与管理 (Business)">
+                <option value="商业分析 / Business Analytics">
+                  商业分析 / Business Analytics
+                </option>
+                <option value="金融与经济 / Finance & Economics">
+                  金融与经济 / Finance & Economics
+                </option>
+                <option value="工商管理 / MBA">工商管理 / MBA</option>
+              </optgroup>
+              <optgroup label="人文与社科 (Humanities & Social Sciences)">
+                <option value="教育学 / Education">教育学 / Education</option>
+                <option value="公共政策 / Public Policy">
+                  公共政策 / Public Policy
+                </option>
+                <option value="传媒与交互 / Media & Communication">
+                  传媒与交互 / Media & Communication
+                </option>
+              </optgroup>
+              <optgroup label="艺术与设计 (Arts & Design)">
+                <option value="纯艺术 / Fine Arts">纯艺术 / Fine Arts</option>
+                <option value="创新设计 / Innovative Design">
+                  创新设计 / Innovative Design
+                </option>
+              </optgroup>
+              <option value="other">其他 (手动输入) / Other</option>
+            </select>
+            <input
+              type="text"
+              id="input-target-major-manual"
+              placeholder="请输入你的目标专业..."
+              class="w-full mt-2 px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-colors text-gray-800 hidden"
+            />
+          </div>
+        </div>
+
+        <div class="mt-8 mb-6">
+          <button
+            onclick="startQuiz()"
+            class="w-full bg-[#4a5568] hover:bg-[#2d3748] text-white font-medium py-3.5 rounded-2xl shadow-lg transition-all active:scale-[0.98]"
+          >
+            开启我的专属评测
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 2: Quiz -->
+      <div
+        id="screen-quiz"
+        class="absolute inset-0 flex flex-col bg-white hidden z-10"
+      >
+        <div class="px-6 pt-12 pb-4">
+          <div class="flex justify-between items-center mb-3">
+            <span
+              id="question-counter"
+              class="text-sm font-semibold text-slate-500"
+              >1 / 5</span
+            >
+          </div>
+          <div class="w-full bg-gray-100 rounded-full h-1">
+            <div
+              id="progress-bar"
+              class="bg-slate-700 h-1 rounded-full transition-all duration-300"
+              style="width: 20%"
+            ></div>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto px-6 pb-8 flex flex-col">
+          <h2
+            id="question-text"
+            class="text-xl font-bold text-gray-800 mt-6 mb-8 leading-relaxed font-serif-sc"
+          >
+            <!-- Question -->
+          </h2>
+          <div
+            id="options-container"
+            class="flex flex-col space-y-3 mt-auto mb-4"
+          >
+            <!-- Options -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen Loading -->
+      <div
+        id="screen-loading"
+        class="absolute inset-0 flex flex-col justify-center items-center bg-[#f2f3f5] hidden z-20 fade-in"
+      >
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-700 mb-4"
+        ></div>
+        <h3 class="text-lg font-bold text-slate-800 font-serif-sc mb-2">
+          正在进行多维度分析
+        </h3>
+        <p class="text-sm text-slate-500">AI 正在匹配最适合你的城市土壤...</p>
+      </div>
+
+      <!-- Screen 3: Result -->
+      <div
+        id="screen-result"
+        class="absolute inset-0 flex flex-col bg-[#f2f3f5] hidden z-10 overflow-y-auto pb-12"
+      >
+        <!-- Result Header -->
+        <div class="pt-16 pb-6 px-6 text-center flex flex-col items-center">
+          <h1
+            id="result-city-name"
+            class="text-[2.75rem] font-serif-sc text-slate-700 mb-6 tracking-widest"
+          >
+            维也纳
+          </h1>
+
+          <div
+            id="result-dominant-pill"
+            class="inline-flex items-center px-5 py-2 rounded-full bg-[#64748b] text-white text-sm shadow-md mb-2"
+          >
+            <span class="mr-2 text-xs">●</span>
+            <span id="dominant-trait-text">审美偏好主导</span>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="px-4 space-y-4">
+          <!-- 性格维度分析 -->
+          <div
+            class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100/50"
+          >
+            <div class="flex items-center mb-4">
+              <span class="text-xl mr-2">🧠</span>
+              <h3 class="text-[1.05rem] font-bold text-gray-800">
+                性格维度分析
+              </h3>
+            </div>
+            <p class="text-xs text-gray-500 mb-4">
+              以下是根据您的性格测评分析出的五大维度分布：
+            </p>
+
+            <div class="grid grid-cols-2 gap-3" id="dimensions-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <!-- 推荐城市 -->
+          <div
+            class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100/50 flex flex-col items-center text-center"
+          >
+            <div class="flex items-center justify-center mb-5 w-full">
+              <span class="text-xl mr-2">🏙️</span>
+              <h3 class="text-[1.05rem] font-bold text-gray-800">推荐城市</h3>
+            </div>
+
+            <h2
+              id="rec-city-name"
+              class="text-2xl font-serif-sc text-slate-700 mb-4 tracking-wide"
+            >
+              维也纳
+            </h2>
+
+            <div
+              class="bg-[#5e6c7d] text-white px-4 py-1.5 rounded-full text-sm shadow-sm mb-4"
+            >
+              适配度 <span id="rec-match-percent">91</span>%
+            </div>
+
+            <p
+              id="rec-keywords"
+              class="text-xs text-gray-500 tracking-wide mt-2"
+            >
+              古典音乐, 艺术殿堂, 历史底蕴, 品质生活
+            </p>
+          </div>
+
+          <!-- 专业发展契合度 -->
+          <div
+            class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100/50"
+          >
+            <div class="flex items-center mb-4">
+              <span class="text-xl mr-2">🎓</span>
+              <h3 class="text-[1.05rem] font-bold text-gray-800">
+                专业发展契合度
+              </h3>
+            </div>
+            <p
+              id="major-fit-text"
+              class="text-sm text-gray-600 leading-relaxed"
+            >
+              <!-- Populated by JS -->
+            </p>
+          </div>
+
+          <button
+            onclick="location.reload()"
+            class="w-full mt-4 bg-white border border-gray-200 text-gray-600 font-medium py-3.5 rounded-2xl shadow-sm transition-all active:scale-[0.98]"
+          >
+            重新测试
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Data Models
+      const dimensionsInfo = {
+        openness: {
+          name: "开放性",
+          desc: "对新体验、新文化的渴望程度",
+          color: "#10b981",
+          dotClass: "text-emerald-500",
+        },
+        stimulation: {
+          name: "刺激渴望",
+          desc: "对活力、激情和快节奏的偏好",
+          color: "#ef4444",
+          dotClass: "text-red-500",
+        },
+        social: {
+          name: "社交倾向",
+          desc: "对社交互动和多元文化的偏好",
+          color: "#3b82f6",
+          dotClass: "text-blue-500",
+        },
+        aesthetics: {
+          name: "审美偏好",
+          desc: "对美学、艺术和品质的追求",
+          color: "#8b5cf6",
+          dotClass: "text-purple-500",
+        },
+        rules: {
+          name: "规则依赖",
+          desc: "对稳定、规则和秩序的依赖",
+          color: "#6b7280",
+          dotClass: "text-gray-500",
+        },
+      };
+
+      const cities = {
+        "New York": {
+          name: "纽约",
+          keywords: "快节奏, 多元包容, 顶尖资源, 社交网络",
+          matchTraits: ["stimulation", "social"],
+          generateMajorFit: (major) =>
+            `作为全球金融与文化中心，纽约为【${major}】提供了最前沿的行业洞察和无限的Networking机会。高强度的刺激和密集的社交网络能极大加速你的职业发展。`,
+        },
+        Pittsburgh: {
+          name: "匹兹堡",
+          keywords: "学术氛围, 沉稳专注, 规则秩序, 深度钻研",
+          matchTraits: ["rules"],
+          generateMajorFit: (major) =>
+            `匹兹堡沉稳的城市气质和严谨的学术氛围非常适合【${major}】领域的深度钻研。这里的规则感和低干扰环境，能让你静下心来打磨专业核心竞争力。`,
+        },
+        London: {
+          name: "伦敦",
+          keywords: "文化底蕴, 前卫艺术, 优雅精致, 开放多元",
+          matchTraits: ["aesthetics", "openness"],
+          generateMajorFit: (major) =>
+            `伦敦完美融合了深厚的历史底蕴与前卫的创新精神。对于追求【${major}】的你来说，这里无处不在的美学熏陶和开放多元的行业生态将是最好的灵感来源。`,
+        },
+        Seattle: {
+          name: "西雅图",
+          keywords: "科技创新, 自然风光, 包容随性, 极客精神",
+          matchTraits: ["openness", "rules"],
+          generateMajorFit: (major) =>
+            `被科技巨头和自然风光环绕的西雅图，拥有极高的开放性和包容度。如果你致力于【${major}】，这里崇尚创新且注重逻辑规则的极客环境将完美契合你的发展。`,
+        },
+        Vienna: {
+          name: "维也纳",
+          keywords: "古典艺术, 历史底蕴, 慢节奏, 品质生活",
+          matchTraits: ["aesthetics"],
+          generateMajorFit: (major) =>
+            `维也纳有着极致的审美追求和从容的生活节奏。在【${major}】方向，这种不被快节奏裹挟、专注于品质与艺术内核的环境，能最大程度释放你的潜力。`,
+        },
+      };
+
+      const questions = [
+        {
+          text: "遇到一个完全未知的全新领域或项目，你的第一反应通常是？",
+          options: [
+            {
+              text: "太棒了！我迫不及待想尝试新东西，拥抱变化",
+              traits: { openness: 3, stimulation: 2 },
+            },
+            {
+              text: "先看看前人的经验和规范，按部就班地推进",
+              traits: { rules: 4 },
+            },
+            {
+              text: "找几个人一起头脑风暴，在交流中寻找方向",
+              traits: { social: 3, openness: 1 },
+            },
+            {
+              text: "重点关注这个项目最终呈现的质感和美学价值",
+              traits: { aesthetics: 3, rules: 1 },
+            },
+          ],
+        },
+        {
+          text: "难得的休息日，你更倾向于哪种度过方式？",
+          options: [
+            {
+              text: "去最热闹的街区探索新开的店，或者参加派对",
+              type: "US",
+              traits: { stimulation: 3, social: 2 },
+            },
+            {
+              text: "去美术馆看展，或者在古典建筑旁喝杯咖啡",
+              type: "UK",
+              traits: { aesthetics: 4 },
+            },
+            {
+              text: "在家里安静地整理房间，按照计划复盘本周",
+              type: "AUS",
+              traits: { rules: 3 },
+            },
+            {
+              text: "参加跨文化交流活动，认识不同背景的新朋友",
+              type: "Nordics",
+              traits: { social: 3, openness: 2 },
+            },
+          ],
+        },
+        {
+          text: "在你心目中，最理想的学习/工作环境是怎样的？",
+          options: [
+            {
+              text: "充满竞争和高压，但能带来极高成就感和回报",
+              traits: { stimulation: 4 },
+            },
+            {
+              text: "制度清晰，赏罚分明，一切都有明确的标准可依",
+              traits: { rules: 4 },
+            },
+            {
+              text: "极具设计感，细节考究，身处其中就是一种享受",
+              traits: { aesthetics: 3, openness: 1 },
+            },
+            {
+              text: "扁平化管理，思维碰撞强烈，鼓励打破常规",
+              traits: { openness: 3, social: 1 },
+            },
+          ],
+        },
+        {
+          text: "如果要去一个陌生的城市生活一个月，你最看重？",
+          options: [
+            {
+              text: "当地的艺术氛围、博物馆数量和城市建筑风格",
+              traits: { aesthetics: 4 },
+            },
+            {
+              text: "当地人的热情程度，以及是否容易建立社交圈子",
+              traits: { social: 4 },
+            },
+            {
+              text: "治安好不好，交通和基础设施是否完善、有秩序",
+              traits: { rules: 3, aesthetics: 1 },
+            },
+            {
+              text: "是否有很多刺激的活动、丰富的夜生活和未知探险",
+              traits: { stimulation: 3, openness: 1 },
+            },
+          ],
+        },
+        {
+          text: "面对未来的职业发展，你内心的真实追求是？",
+          options: [
+            {
+              text: "走在时代最前沿，不断颠覆自我，哪怕充满不确定性",
+              traits: { openness: 3, stimulation: 2 },
+            },
+            {
+              text: "成为某个细分领域的专家，输出高质量、高品位的成果",
+              traits: { aesthetics: 3, rules: 1 },
+            },
+            {
+              text: "在成熟稳定的体系内稳步晋升，获得安全感和尊重",
+              traits: { rules: 4 },
+            },
+            {
+              text: "成为行业的连接者，拥有庞大的人脉网络和影响力",
+              traits: { social: 3, stimulation: 1 },
+            },
+          ],
+        },
+      ];
+
+      // State
+      let currentQuestionIndex = 0;
+      let userScores = {
+        openness: 0,
+        stimulation: 0,
+        social: 0,
+        aesthetics: 0,
+        rules: 0,
+      };
+      let currentMajor = "";
+      let targetMajor = "";
+      let selectedAnswers = [];
+
+      function toggleManualInput(type) {
+        const selectEl = document.getElementById(`select-${type}-major`);
+        const manualInputEl = document.getElementById(
+          `input-${type}-major-manual`,
+        );
+        if (selectEl.value === "other") {
+          manualInputEl.classList.remove("hidden");
+          manualInputEl.focus();
+        } else {
+          manualInputEl.classList.add("hidden");
+        }
+      }
+
+      function switchScreen(hideId, showId) {
+        const hideEl = document.getElementById(hideId);
+        const showEl = document.getElementById(showId);
+
+        hideEl.classList.remove("fade-in");
+        hideEl.classList.add("fade-out");
+
+        setTimeout(() => {
+          hideEl.classList.add("hidden");
+          showEl.classList.remove("hidden");
+          showEl.classList.remove("fade-out");
+          showEl.classList.add("fade-in");
+        }, 300);
+      }
+
+      function startQuiz() {
+        const curSelect = document.getElementById("select-current-major").value;
+        const curManual = document.getElementById(
+          "input-current-major-manual",
+        ).value;
+        currentMajor =
+          (curSelect === "other" ? curManual : curSelect) || "未指定专业";
+
+        const tarSelect = document.getElementById("select-target-major").value;
+        const tarManual = document.getElementById(
+          "input-target-major-manual",
+        ).value;
+        targetMajor =
+          (tarSelect === "other" ? tarManual : tarSelect) || "未指定专业";
+
+        currentQuestionIndex = 0;
+        userScores = {
+          openness: 0,
+          stimulation: 0,
+          social: 0,
+          aesthetics: 0,
+          rules: 0,
+        };
+        selectedAnswers = [];
+
+        renderQuestion();
+        switchScreen("screen-welcome", "screen-quiz");
+      }
+
+      function renderQuestion() {
+        const question = questions[currentQuestionIndex];
+
+        // Progress
+        const progressPercent = (currentQuestionIndex / questions.length) * 100;
+        document.getElementById("progress-bar").style.width =
+          `${progressPercent}%`;
+        document.getElementById("question-counter").innerText =
+          `${currentQuestionIndex + 1} / ${questions.length}`;
+
+        // Render Text
+        document.getElementById("question-text").innerText = question.text;
+
+        // Render Options
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+
+        question.options.forEach((opt, index) => {
+          const btn = document.createElement("button");
+          btn.className =
+            "w-full text-left p-4 rounded-2xl border-2 border-gray-100 bg-white hover:bg-slate-50 hover:border-slate-300 text-gray-700 font-medium transition-all active:scale-[0.98] shadow-sm";
+          btn.innerText = opt.text;
+
+          btn.onclick = () => selectOption(opt);
+          optionsContainer.appendChild(btn);
+        });
+      }
+
+      function selectOption(opt) {
+        // Track the text of the selected option for AI context
+        selectedAnswers.push(opt.text);
+
+        // Update scores (kept for backwards compatibility/fallback)
+        for (const [trait, value] of Object.entries(opt.traits)) {
+          userScores[trait] += value;
+        }
+
+        if (currentQuestionIndex < questions.length - 1) {
+          currentQuestionIndex++;
+          renderQuestion();
+        } else {
+          document.getElementById("progress-bar").style.width = `100%`;
+          setTimeout(calculateAndShowResult, 200);
+        }
+      }
+
+      async function calculateAndShowResult() {
+        switchScreen("screen-quiz", "screen-loading");
+
+        const payload = {
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `我的当前专业是：${currentMajor}，目标申请专业是：${targetMajor}。在性格测试中，我的各项倾向得分如下：开放性(${userScores.openness})，刺激渴望(${userScores.stimulation})，社交倾向(${userScores.social})，审美偏好(${userScores.aesthetics})，规则依赖(${userScores.rules})。请为我推荐最适合的海外留学城市，并进行分析。`,
+                },
+              ],
+            },
+          ],
+          systemInstruction: {
+            parts: [
+              {
+                text: "你是一个资深留学规划专家与心理分析师。根据用户的性格测试得分和专业，推荐一个最合适的海外留学城市（具体到城市名）。必须严格按照JSON Schema返回结果。",
+              },
+            ],
+          },
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: {
+              type: "OBJECT",
+              properties: {
+                cityName: {
+                  type: "STRING",
+                  description: "推荐的城市名称，如：维也纳, 纽约, 伦敦, 东京等",
+                },
+                dominantTraitLabel: {
+                  type: "STRING",
+                  description:
+                    "主导性格标签，根据最高分确定，如：'审美偏好主导'、'规则秩序主导'、'刺激渴望主导'等",
+                },
+                matchPercent: {
+                  type: "INTEGER",
+                  description: "适配度百分比，生成85到99之间的数字",
+                },
+                keywords: {
+                  type: "STRING",
+                  description:
+                    "该城市的4个性格关键词，用逗号分隔，如：古典音乐, 艺术殿堂, 历史底蕴, 品质生活",
+                },
+                majorFitText: {
+                  type: "STRING",
+                  description:
+                    "详细分析该城市的氛围和环境如何完美契合用户的'目标申请专业'，以及对他们未来发展的实际帮助（约80-100字，需要针对专业深度分析）",
+                },
+                percentages: {
+                  type: "OBJECT",
+                  properties: {
+                    openness: {
+                      type: "NUMBER",
+                      description: "开放性百分比 (0-100)，五项总和需为100",
+                    },
+                    stimulation: {
+                      type: "NUMBER",
+                      description: "刺激渴望百分比 (0-100)",
+                    },
+                    social: {
+                      type: "NUMBER",
+                      description: "社交倾向百分比 (0-100)",
+                    },
+                    aesthetics: {
+                      type: "NUMBER",
+                      description: "审美偏好百分比 (0-100)",
+                    },
+                    rules: {
+                      type: "NUMBER",
+                      description: "规则依赖百分比 (0-100)",
+                    },
+                  },
+                },
+              },
+              required: [
+                "cityName",
+                "dominantTraitLabel",
+                "matchPercent",
+                "keywords",
+                "majorFitText",
+                "percentages",
+              ],
+            },
+          },
+        };
+
+        const apiKey = "AQ.Ab8RN6J1FmasKV2C98alOWv0OyEVlqqS99hatvsR5IaesZxP1Q"; // Runtime automatically provides this via Gemini 3 Flash Preview
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const result = await response.json();
+
+          if (result.candidates && result.candidates[0].content.parts[0].text) {
+            const jsonText = result.candidates[0].content.parts[0].text;
+            const aiData = JSON.parse(jsonText);
+
+            // Populate Result UI
+            document.getElementById("result-city-name").innerText =
+              aiData.cityName;
+            document.getElementById("dominant-trait-text").innerText =
+              aiData.dominantTraitLabel;
+            document.getElementById("rec-city-name").innerText =
+              aiData.cityName;
+            document.getElementById("rec-match-percent").innerText =
+              aiData.matchPercent;
+            document.getElementById("rec-keywords").innerText = aiData.keywords;
+            document.getElementById("major-fit-text").innerText =
+              aiData.majorFitText;
+
+            // Render Dimension Cards
+            const grid = document.getElementById("dimensions-grid");
+            grid.innerHTML = "";
+
+            const traitKeys = Object.keys(dimensionsInfo);
+            traitKeys.forEach((trait, index) => {
+              const info = dimensionsInfo[trait];
+              const pctVal = (aiData.percentages[trait] || 0).toFixed(1);
+
+              const card = document.createElement("div");
+              card.className = `p-4 rounded-2xl bg-white border border-gray-100 ${index === traitKeys.length - 1 ? "col-span-2" : ""}`;
+              card.innerHTML = `
+                            <div class="flex items-center mb-2">
+                                <span class="text-[0.65rem] mr-2 ${info.dotClass}">●</span>
+                                <span class="text-sm font-semibold text-gray-700">${info.name}</span>
+                            </div>
+                            <div class="text-[1.75rem] font-medium text-gray-800 mb-2 leading-none font-serif-sc">${pctVal}%</div>
+                            <div class="text-[0.7rem] text-gray-500 leading-tight">${info.desc}</div>
+                        `;
+              grid.appendChild(card);
+            });
+
+            switchScreen("screen-loading", "screen-result");
+          } else {
+            throw new Error("Invalid API response format");
+          }
+        } catch (error) {
+          console.error("Error fetching AI result:", error);
+          // Fallback rendering in case API fails
+          alert("AI 分析生成失败，请重试或检查网络状态。");
+          location.reload();
+        }
+      }
+    </script>
+  </body>
+</html>
